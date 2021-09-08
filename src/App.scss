@@ -1,0 +1,25 @@
+.try{
+margin-bottom: 1rem;
+margin-top: 1rem;
+
+}
+
+.container{
+  display: flex;
+  width: 97%;
+  margin: auto;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.textfield{
+  width: 300px;
+
+}
+
+.autocomplete-dropdown-container{
+  width: 300px;
+  word-wrap: break-word;
+  height: 50px;
+}
+
