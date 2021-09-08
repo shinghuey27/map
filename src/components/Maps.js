@@ -1,136 +1,108 @@
 import React, { useState } from "react";
+
 import {
-  withGoogleMap,
   GoogleMap,
+  useJsApiLoader,
   Marker,
   InfoWindow,
-} from "react-google-maps";
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from "react-places-autocomplete";
+  Autocomplete,
+} from "@react-google-maps/api";
+
 import TextField from "@material-ui/core/TextField";
 import "../App.scss";
 
 const Maps = () => {
-const initialState = {
-  isOpen: false,
-  coords: { lat: 40.756795, lng: -73.954298 },
-  address: "",
-}
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyAkB5eGAVI247vmTmSlks3O6MnoDk8qOS8",
+  });
 
+ const initialState = [{
+    id:0,
+    isOpen: false,
+    coords: { lat: 40.756795, lng: -73.954298 },
+    address: "",
+    url: "",
+  }];
+
+  
   const [state, setState] = useState(initialState);
-  // const [selectedAddress,setSelectedAddress] = useState(state.address)
 
-
-  const handleChange = (address) => {
-    setState({ address });
+  const onLoad = (autocomplete) => {
+    setState({
+      isOpen: state.isOpen,
+      coords: state.coords,
+      address: autocomplete,
+      url: state.url,
+    });
+    console.log("autocomplete", autocomplete);
   };
 
-  const handleSelect = (address) => {
-    geocodeByAddress(address)
-      .then((results) => getLatLng(results[0]))
-   
-      .then((latLng) =>
-      
-        setState({
-          coords: latLng,
-          address:address
-        }),
-        // setSelectedAddress(address)
-
-      )
-      .catch((error) => console.error("Error", error));
-      // console.log("halo" + selectedAddress)
-
+  const onPlaceChanged = () => {
+    const data = state.address.getPlace();
+    if (state.address !== null) {
+      console.log("selected", data);
+      setState({
+        isOpen: state.isOpen,
+        coords: {
+          lat: data.geometry.location.lat(),
+          lng: data.geometry.location.lng(),
+        },
+        address: state.address,
+        url: data.photos[0].getUrl(),
+      });
+    } else {
+      console.log("Autocomplete is not loaded yet!");
+    }
   };
 
-  const handleToggleOpen =(evt)=>{
+  const handleToggleOpen = (evt) => {
     setState({
       isOpen: true,
       coords: state.coords,
       address: state.address,
     });
-    console.log("asdasd" + state.isOpen);
-
+    console.log("isOpenState" + state.isOpen);
   };
-
-  const GoogleMapExample = withGoogleMap((props) => (
-    <GoogleMap defaultCenter={state.coords} defaultZoom={13}>
-      <Marker
-        key={props.index}
-        position={state.coords}
-        onClick={handleToggleOpen}
-      >
-        {state.isOpen && (
-          <InfoWindow>
-            <span>This is Info Window message!</span>
-          </InfoWindow>
-        )}
-      </Marker>
-    </GoogleMap>
-  ));
 
   return (
     <div className="container">
-      <PlacesAutocomplete
-        value={state.address}
-        onChange={handleChange}
-        onSelect={handleSelect}
+      <Autocomplete
+        onLoad={onLoad}
+        onPlaceChanged={onPlaceChanged}
+        placeholder="disabled"
       >
-        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div className="try">
-            <TextField
-              {...getInputProps({
-                className: "location-search-input",
-              })}
-              id="outlined-basic"
-              variant="outlined"
-              label="Search Places"
-              value={state.address}
-              className="textfield"
-            />
-            <div className="autocomplete-dropdown-container">
-              {loading && <div>Loading...</div>}
-              {suggestions.map((suggestion) => {
-                const className = suggestion.active
-                  ? "suggestion-item--active"
-                  : "suggestion-item";
-                // inline style for demonstration purpose
-                const style = suggestion.active
-                  ? {
-                      backgroundColor: "#f9f9f9",
-                      cursor: "pointer",
-                      paddingBottom :"10px"
-                    }
-                  : {
-                      backgroundColor: "#ffffff",
-                      cursor: "pointer",
-                      paddingBottom :"10px"
-
-
-
-                    };
-                return (
-                  <div
-                    {...getSuggestionItemProps(suggestion, {
-                      className,
-                      style,
-                    })}
-                    key={suggestion.placeId}
-                  >
-                    <span>{suggestion.description}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </PlacesAutocomplete>
-      <GoogleMapExample
-        containerElement={<div style={{ height: `100vh`, width: "80vw" }} />}
-        mapElement={<div style={{ height: `100%` }} />}
-      />
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          placeholder=" "
+          label="Search Places"
+          className="textfield"
+        />
+      </Autocomplete>
+      {/* <img style={{ width: "100px", height: "100px" }} src={state.url}></img> */}
+      {isLoaded ? (
+        <GoogleMap
+          center={state.coords}
+          zoom={13}
+          mapContainerClassName="mapContainer"
+        >
+          <Marker
+            key="1"
+            position={state.coords}
+            onClick={handleToggleOpen}
+            draggable="true"
+          >
+            {state.isOpen && (
+              <InfoWindow>
+                <span>This is Info Window message!</span>
+              </InfoWindow>
+            )}
+          </Marker>
+        </GoogleMap>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

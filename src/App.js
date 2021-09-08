@@ -1,8 +1,8 @@
 import "./App.scss";
-import GoogleApi from "./api/GoogleApi";
+import Maps from "./components/Maps";
 
 function App() {
-  return <GoogleApi />
+  return <Maps />
 }
 
 export default App;
