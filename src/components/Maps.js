@@ -25,7 +25,9 @@ const Maps = () => {
       isOpen: false,
       coords: { lat: 3.139003, lng: 101.686855 },
       address: "",
-      search:"",
+      search: "",
+      reviewDetails: { name: "", rating: null, time: "", desc: "" },
+      selectedItem: null,
     },
   ];
   const [states, setStates] = useState(initialState);
@@ -103,14 +105,20 @@ const Maps = () => {
           rating: rating,
           formatted_address: data.formatted_address,
           review: review,
+          reviewDetails: data.reviews
+          // reviewDetails: {
+          //   name: data.reviews.author_name,
+          //   rating: data.reviews.rating,
+          //   time: data.reviews.relative_time_description,
+          //   desc: data.reviews.text,
+          // },
         })
       );
+      console.log("data",data)
     } else {
       console.log("Autocomplete is not loaded yet!");
     }
-    
   };
-
   //Trigger marker open
   const handleToggleOpen = (evt) => {
     setStates({
@@ -122,14 +130,15 @@ const Maps = () => {
   const handleUserInput = (e) => {
     setStates({
       ...states,
-      search:e.target.value,
-    });  };
+      search: e.target.value,
+    });
+  };
 
   // Reset Input Field handler
   const resetSearch = () => {
     setStates({
       ...states,
-      search:"",
+      search: "",
     });
   };
 
@@ -140,28 +149,26 @@ const Maps = () => {
       ) : (
         <div className="container">
           <div className="flex">
-              <Autocomplete onLoad={onLoad} onPlaceChanged={OnPlaceChanged}>
-                <TextField
-                  id="outlined-basic"
-                  variant="outlined"
-                  label="Search Places"
-                  className="textfield"
-                  value={states.search}
-                  onChange={handleUserInput}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="delete"
-                          onClick={resetSearch}
-                        >
-                          <ClearIcon fontSize="small" />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Autocomplete>
+            <Autocomplete onLoad={onLoad} onPlaceChanged={OnPlaceChanged}>
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                label="Search Places"
+                className="textfield"
+                value={states.search}
+                onChange={handleUserInput}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton aria-label="delete" onClick={resetSearch}>
+                        <ClearIcon fontSize="small" />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Autocomplete>
+
             <HistoryList states={states} setStates={setStates} />
           </div>
           <GoogleMap

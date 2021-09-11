@@ -16,6 +16,7 @@ export const fetchMaps = createAsyncThunk("maps/fetchMaps", async () => {
       },
       rating: null,
       review: 0,
+      reviewDetails: { 0: {author_name: "asd", rating: 2, relative_time_description: "asd", text: "ssss" }},
     },
   ];
 });

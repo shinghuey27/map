@@ -96,3 +96,14 @@ html {
 .sss{
   margin-left: 0.5rem !important;
 }
+
+.modal{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paper{
+  background-color: white;
+  padding: 2rem;
+}
