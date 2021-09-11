@@ -20,6 +20,7 @@
     "react-redux": "^7.2.5",
     "react-scripts": "4.0.3",
     "redux-thunk": "^2.3.0",
+    "sass": "^1.39.2",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

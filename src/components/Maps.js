@@ -8,10 +8,15 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   GoogleMap,
   Marker,
-  InfoWindow,
+  // InfoWindow,
   Autocomplete,
 } from "@react-google-maps/api";
+
 import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
+import ClearIcon from "@material-ui/icons/Clear";
+import InputAdornment from "@material-ui/core/InputAdornment";
+
 import Loading from "./Loading";
 
 const Maps = () => {
@@ -20,6 +25,7 @@ const Maps = () => {
       isOpen: false,
       coords: { lat: 3.139003, lng: 101.686855 },
       address: "",
+      search:"",
     },
   ];
   const [states, setStates] = useState(initialState);
@@ -47,11 +53,13 @@ const Maps = () => {
   };
 
   //selected google place
-  const OnPlaceChanged = () => {
-    const data = states.address.getPlace();
+  const OnPlaceChanged = (e) => {
     let url = "";
     let rating = "";
     let review = "";
+
+    const data = states.address.getPlace();
+
     if (states.address !== null) {
       console.log("selected", data);
       if (data.photos === undefined) {
@@ -79,8 +87,8 @@ const Maps = () => {
           lat: data.geometry.location.lat(),
           lng: data.geometry.location.lng(),
         },
+        search: states.address.gm_accessors_.place.Ij.formattedPrediction,
       });
-
       console.log("states", states);
       dispatch(
         mapAdded({
@@ -100,6 +108,7 @@ const Maps = () => {
     } else {
       console.log("Autocomplete is not loaded yet!");
     }
+    
   };
 
   //Trigger marker open
@@ -110,6 +119,20 @@ const Maps = () => {
     });
   };
 
+  const handleUserInput = (e) => {
+    setStates({
+      ...states,
+      search:e.target.value,
+    });  };
+
+  // Reset Input Field handler
+  const resetSearch = () => {
+    setStates({
+      ...states,
+      search:"",
+    });
+  };
+
   return (
     <div className="container">
       {loading === true ? (
@@ -117,14 +140,28 @@ const Maps = () => {
       ) : (
         <div className="container">
           <div className="flex">
-            <Autocomplete onLoad={onLoad} onPlaceChanged={OnPlaceChanged}>
-              <TextField
-                id="outlined-basic"
-                variant="outlined"
-                label="Search Places"
-                className="textfield"
-              />
-            </Autocomplete>
+              <Autocomplete onLoad={onLoad} onPlaceChanged={OnPlaceChanged}>
+                <TextField
+                  id="outlined-basic"
+                  variant="outlined"
+                  label="Search Places"
+                  className="textfield"
+                  value={states.search}
+                  onChange={handleUserInput}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="delete"
+                          onClick={resetSearch}
+                        >
+                          <ClearIcon fontSize="small" />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Autocomplete>
             <HistoryList states={states} setStates={setStates} />
           </div>
           <GoogleMap
@@ -133,18 +170,13 @@ const Maps = () => {
             mapContainerClassName="mapContainer"
           >
             {entities.length &&
-              entities.map(({ title, coords }) => (
+              entities.map(({ id, title, coords }) => (
                 <Marker
+                  key={id}
                   position={coords}
                   onClick={handleToggleOpen}
                   draggable="true"
-                >
-                  {/* {states.isOpen && (
-                    <InfoWindow position={states.coords} onCloseClick={handleToggleOpen}>
-                      <span>{title}</span>
-                    </InfoWindow>
-                  )} */}
-                </Marker>
+                />
               ))}
           </GoogleMap>
         </div>
