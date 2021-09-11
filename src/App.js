@@ -2,7 +2,11 @@ import "./App.scss";
 import Maps from "./components/Maps";
 
 function App() {
-  return <Maps />
+  return (
+    <div>
+      <Maps />
+    </div>
+  );
 }
 
 export default App;
