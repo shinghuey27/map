@@ -1,0 +1,44 @@
+.listContainer{
+    width: 100%;
+    overflow-y: auto;
+    height: 80vh;
+}
+
+.historyList{
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    width: 700px;
+    border-bottom: 1px solid #bec2ce;
+    padding: 1rem;
+    cursor: pointer;
+    align-items: center;
+}
+
+.placeImg{
+    width: 200px;
+  height: 200px;
+  border-radius: 4px;
+}
+
+.iconRotate{
+    transform: rotateZ(55deg);
+    font-size: 1.2rem !important;
+    color: #9298b0c5;
+}
+
+.ratingContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.textTotalReviews{
+    margin-left: 0.5rem !important;
+
+}
+
+.buttonContainer{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4em;
+}

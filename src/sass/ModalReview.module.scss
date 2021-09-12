@@ -1,0 +1,43 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.reviewContainer {
+  background-color: white;
+  min-height: 50vh;
+  min-width: 500px;
+  max-width: 500px;
+  border-radius: 10px !important;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px !important;
+}
+
+.ratingDiv {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  width: auto;
+}
+
+.reviewText {
+  width: 420px !important;
+  padding: 0 1rem 1rem 1rem;
+}
+
+.ratingStar{
+    margin-right: .5rem;
+}
+
+.noReview{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+  }

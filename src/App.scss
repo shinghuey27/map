@@ -6,19 +6,7 @@ html {
   margin-top: 1rem;
 }
 
-.container {
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  justify-content: space-between;
-}
 
-.textfield {
-  width: 100%;
-  margin: 2rem 0 2rem 0 !important ;
-  display: flex;
-  justify-content: center;
-}
 
 .autocomplete-dropdown-container {
   width: 300px;
@@ -26,46 +14,11 @@ html {
   height: 50px;
 }
 
-.mapContainer {
-  width: 60vw;
-  height: 100vh;
-}
 
-.flex {
-  display: flex;
-  flex-direction: column;
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
 
-.img {
-  width: 200px;
-  height: 200px;
-  border-radius: 4px;
-}
 
 .pac-target-input:not(:-webkit-autofill) {
   animation-name: unset;
-}
-
-.history-list-container {
-  width: 100%;
-  overflow-y: auto;
-  height: 87vh;
-}
-
-.history-list {
-  display: flex;
-  flex-direction: row;
-  background-color: white;
-  width: 700px;
-  border-bottom: 1px solid #bec2ce;
-  padding: 1rem;
-  cursor: pointer;
-}
-
-.s {
-  margin-left: 2rem;
 }
 
 .MuiTypography-h5 {
@@ -80,30 +33,6 @@ html {
   display: flex;
 }
 
-.rotate {
-  transform: rotateZ(55deg);
-  font-size: 1.2rem !important;
-  color: #9298b0c5;
-
-}
-
-.ss{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.sss{
-  margin-left: 0.5rem !important;
-}
-
-.modal{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.paper{
-  background-color: white;
-  padding: 2rem;
+.MuiCardContent-root{
+  padding: 16px 16px 0 16px !important;
 }
