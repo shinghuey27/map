@@ -12,12 +12,12 @@ import { GoogleMap, Marker, Autocomplete } from "@react-google-maps/api";
 
 import { HistoryList } from "./HistoryList";
 import { mapAdded } from "../redux/MapsSlice";
-
+import Loading from "./Loading";
 const Maps = () => {
   const initialState = [
     {
       isOpen: false,
-      coords: { lat: 3.139003, lng: 101.686855 },
+      coords: { lat: null, lng: null },
       address: "",
       search: "",
       reviewDetails: { name: "", rating: null, time: "", desc: "" },
@@ -25,18 +25,31 @@ const Maps = () => {
     },
   ];
   const [states, setStates] = useState(initialState);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const dispatch = useDispatch();
   const mapsAmount = useSelector((state) => state.maps.entities.length);
   const { entities } = useSelector((state) => state.maps);
 
-  //set default coords
+  const getLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setStates({
+          ...states,
+          coords: {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          },
+        });
+      },
+      (err) => setErrorMessage(err.message)
+    );
+  };
+
+  // set default coords
   useEffect(() => {
-    setStates({
-      ...states,
-      coords: { lat: 3.139003, lng: 101.686855 },
-    });
-  }, []);
+    getLocation();
+  });
 
   //load google place autocomplete
   const onLoad = (autocomplete) => {
@@ -51,10 +64,10 @@ const Maps = () => {
     let url = "";
     let rating = "";
     let review = "";
-
-    const data = states.address.getPlace();
-
-    if (states.address !== null) {
+    console.log("selected2a", states);
+    console.log("selected2s", e);
+    if (states.address !== null && states.address !== undefined) {
+      const data = states.address.getPlace();
       console.log("selected", data);
       if (data.photos === undefined) {
         url =
@@ -75,15 +88,15 @@ const Maps = () => {
       } else {
         review = data.user_ratings_total;
       }
+      console.log("aaaaaaaaaa", states.address.gm_accessors_);
       setStates({
         ...states,
         coords: {
           lat: data.geometry.location.lat(),
           lng: data.geometry.location.lng(),
         },
-        search: states.address.gm_accessors_.place.Ij.formattedPrediction,
+        search: states.address.gm_accessors_.place.zj.formattedPrediction,
       });
-      console.log("states", states);
       dispatch(
         mapAdded({
           id: mapsAmount + 1,
@@ -114,6 +127,7 @@ const Maps = () => {
   };
 
   const handleUserInput = (e) => {
+    console.log("E", states);
     setStates({
       ...states,
       search: e.target.value,
@@ -126,6 +140,33 @@ const Maps = () => {
       ...states,
       search: "",
     });
+  };
+
+  const renderMap = () => {
+    if (errorMessage && !states.coords) {
+      return (
+        <div className="text-white season-display error">
+          Oppps Error: {errorMessage}
+        </div>
+      );
+    }
+
+    if (!errorMessage && states.coords) {
+      return (
+        <GoogleMap
+          center={states.coords}
+          zoom={13}
+          mapContainerClassName={styles.mapContainer}
+        >
+          {entities.length &&
+            entities.map(({ id, coords }) => (
+              <Marker key={id} position={coords} onClick={handleToggleOpen} />
+            ))}
+        </GoogleMap>
+      );
+    }
+
+    return <Loading message="Please Accept Location Request" />;
   };
 
   return (
@@ -153,21 +194,7 @@ const Maps = () => {
 
         <HistoryList states={states} setStates={setStates} />
       </div>
-      <GoogleMap
-        center={states.coords}
-        zoom={13}
-        mapContainerClassName={styles.mapContainer}
-      >
-        {entities.length &&
-          entities.map(({ id, title, coords }) => (
-            <Marker
-              key={id}
-              position={coords}
-              onClick={handleToggleOpen}
-              draggable="true"
-            />
-          ))}
-      </GoogleMap>
+      {renderMap()}
     </div>
   );
 };

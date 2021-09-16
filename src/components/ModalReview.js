@@ -32,7 +32,7 @@ const ModalReview = ({ reviewDetail, open, setOpen }) => {
         <Card className={styles.reviewContainer}>
           {reviewDetail !== undefined ? (
             reviewDetail.map((review) => (
-              <div>
+              <div key = {review.length}>
                 <div className={styles.header}>
                   <CardHeader
                     avatar={
