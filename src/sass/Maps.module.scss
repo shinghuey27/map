@@ -1,23 +1,31 @@
-.container{
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
+.container {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
 }
-.displayFlex{
-    display: flex;
-    flex-direction: column;
-    margin-left: 1rem;
-    margin-right: 1rem;
+.displayFlex {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
-.search{
-    width: 100%;
-    margin: 2rem 0 2rem 0 !important ;
-    display: flex;
-    justify-content: center;
+.search {
+  width: 100%;
+  margin: 2rem 0 2rem 0 !important ;
+  display: flex;
+  justify-content: center;
 }
 
 .mapContainer {
-    width: 60vw;
-    height: 100vh !important;
-  }
+  width: 60vw;
+  height: 100vh !important;
+}
+
+.errorMessage {
+  width: 60vw ;
+  height: 100vh ;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}

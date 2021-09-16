@@ -1,10 +1,15 @@
 .mapContainer {
-    width: 60vw;
-    height: 100vh !important;
-    position: relative;
-  }
+  width: 60vw;
+  height: 100vh !important;
+  position: relative;
+}
 
-  .textLoader{
-      position: absolute !important;
-      top: 0 !important;
-  }
+.textLoader {
+  position: absolute;
+  top: 0;
+  width: 60vw;
+  height: 100vh !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}

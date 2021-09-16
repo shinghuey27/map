@@ -5,6 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import ClearIcon from "@material-ui/icons/Clear";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import Typography from "@material-ui/core/Typography";
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -145,9 +146,14 @@ const Maps = () => {
   const renderMap = () => {
     if (errorMessage && !states.coords) {
       return (
-        <div className="text-white season-display error">
+        <Typography
+          variant="overline"
+          color="textSecondary"
+          display="block"
+          className={styles.errorMessage}
+        >
           Oppps Error: {errorMessage}
-        </div>
+        </Typography>
       );
     }
 
