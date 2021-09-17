@@ -8,17 +8,22 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import NavigationRoundedIcon from "@material-ui/icons/NavigationRounded";
 import Typography from "@material-ui/core/Typography";
-
-import { useSelector } from "react-redux";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
+import { mapUpdated } from "../redux/MapsSlice";
 
 import ListCompare from "./ListCompare";
 import ModalReview from "./ModalReview";
 
 export function HistoryList({ states, setStates }) {
+  const [count, setCount] = useState(0);
   const { entities } = useSelector((state) => state.maps);
   const loading = useSelector((state) => state.loading);
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState(false);
+  const dispatch = useDispatch();
 
   const initialReviewDetails = [
     {
@@ -41,18 +46,62 @@ export function HistoryList({ states, setStates }) {
     });
   };
 
-  const addtocart = (entity, id, reviewDetails) => {
+  const addtocart = (entity, id, buttonText, reviewDetails) => {
     console.log("asd", entity[id - 1]);
-    console.log("review", reviewDetails);
+
+    const mapId = id;
+    console.log("buttonText", entity[id - 1].buttonText);
+    console.log("buttonText2", id);
+
+    if (entity[id - 1].buttonText === "Add to compare") {
+      if (count < 2) {
+        dispatch(
+          mapUpdated({
+            id: mapId,
+            buttonText: "Remove",
+          })
+        );
+        setCount(count + 1);
+      } else {
+        setError(true);
+      }
+    } else {
+      dispatch(
+        mapUpdated({
+          id: mapId,
+          buttonText: "Add to compare",
+        })
+      );
+      setCount(count - 1);
+    }
   };
+
   const handleOpen = (entity, reviewDetails, id) => {
     setReviewDetail(reviewDetails);
     setOpen(true);
   };
 
+  const handleAlertClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setError(false);
+  };
+
   return (
     <div>
-      <ListCompare reviewDetail={reviewDetail} />
+      <Snackbar open={error} autoHideDuration={1}>
+        <Alert
+          onClose={handleAlertClose}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          Maximum 2 items comparison
+        </Alert>
+      </Snackbar>
+
+      <ListCompare reviewDetail={reviewDetail} count={count} />
       <Paper elevation={3}>
         <div className={styles.listContainer}>
           {loading ? (
@@ -71,6 +120,7 @@ export function HistoryList({ states, setStates }) {
                       formatted_address,
                       review,
                       reviewDetails,
+                      buttonText,
                     },
                     i
                   ) => (
@@ -123,12 +173,13 @@ export function HistoryList({ states, setStates }) {
                           </Button>
                           <Button
                             variant="contained"
-                            color="primary"
-                            onClick={() => {
-                              addtocart(entities, id);
+                            color ={buttonText === "Remove" ? "secondary" : "primary"}
+                            id={id}
+                            onClick={(e) => {
+                              addtocart(entities, id, buttonText);
                             }}
                           >
-                            Add to Compare
+                            {buttonText}
                           </Button>
                         </div>
                       </CardContent>

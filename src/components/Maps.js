@@ -14,6 +14,7 @@ import { GoogleMap, Marker, Autocomplete } from "@react-google-maps/api";
 import { HistoryList } from "./HistoryList";
 import { mapAdded } from "../redux/MapsSlice";
 import Loading from "./Loading";
+
 const Maps = () => {
   const initialState = [
     {
@@ -112,6 +113,7 @@ const Maps = () => {
           formatted_address: data.formatted_address,
           review: review,
           reviewDetails: data.reviews,
+          buttonText:"Add to compare"
         })
       );
       console.log("data", data);

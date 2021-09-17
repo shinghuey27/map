@@ -5,12 +5,17 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import CompareArrowsRoundedIcon from "@material-ui/icons/CompareArrowsRounded";
 
-const ListCompare = () => {
+const ListCompare = ({count}) => {
+  const handleOpen = () => {
+    if (count !== 2){
+      alert("oi")
+    }
+  }
   return (
     <div className={styles.container}>
       <Tooltip title="Select 2 to compare" placement="right">
-        <IconButton >
-          <Badge color="primary" badgeContent={2} showZero>
+        <IconButton onClick={()=>handleOpen(count)}>
+          <Badge color="primary" badgeContent={count} showZero>
             <CompareArrowsRoundedIcon fontSize="large" />
           </Badge>
         </IconButton>

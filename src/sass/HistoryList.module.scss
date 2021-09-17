@@ -15,6 +15,9 @@
     align-items: center;
 }
 
+.alert{
+    margin-bottom: 2rem;
+}
 .placeImg{
     width: 200px;
   height: 200px;
@@ -41,4 +44,8 @@
     display: flex;
     justify-content: space-between;
     margin-top: 4em;
+}
+.remove{
+    background-color: red !important;
+    color:white
 }

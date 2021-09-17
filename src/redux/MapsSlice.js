@@ -17,7 +17,15 @@ export const fetchMaps = createAsyncThunk("maps/fetchMaps", async () => {
       rating: null,
       review: 0,
       quantity: 0,
-      reviewDetails: [ {author_name: "John Doe", rating: 5, relative_time_description: "1 year ago", text: "Pretty Place!" } ],
+      reviewDetails: [
+        {
+          author_name: "John Doe",
+          rating: 5,
+          relative_time_description: "1 year ago",
+          text: "Pretty Place!",
+        },
+      ],
+      buttonText: "Add to compare",
     },
   ];
 });
@@ -31,6 +39,13 @@ const MapsSlice = createSlice({
   reducers: {
     mapAdded(state, action) {
       state.entities.push(action.payload);
+    },
+    mapUpdated(state, action) {
+      const { id, buttonText } = action.payload;
+      const existingMap = state.entities.find((map) => map.id === id);
+      if (existingMap) {
+        existingMap.buttonText = buttonText;
+      }
     },
   },
   extraReducers: {
@@ -47,5 +62,5 @@ const MapsSlice = createSlice({
   },
 });
 
-export const { mapAdded } = MapsSlice.actions;
+export const { mapAdded, mapUpdated } = MapsSlice.actions;
 export default MapsSlice.reducer;
