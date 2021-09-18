@@ -1,6 +1,75 @@
-.container{
-    display: flex;
-    justify-content: flex-end;
-    margin-top: -1rem;
-    margin-bottom: 0.5rem;
+$border-color: #7986cb;
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+.container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -1rem;
+  margin-bottom: 0.5rem;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10rem;
+  justify-content: space-evenly;
+  outline: none;
+}
+
+.reviewContainer {
+  width: 37vw;
+  height: 70vh;
+  overflow: auto !important;
+  border-radius: 30px !important;
+  box-shadow: $border-color 6px 2px 16px 0px, $border-color -6px -2px 16px 0px !important;
+}
+
+.ratingDiv {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  width: auto;
+}
+
+.reviewText {
+  width: 500px !important;
+  padding: 0 1rem 1rem 1rem;
+}
+
+.ratingStar {
+  margin-right: 0.5rem;
+}
+
+.noReview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  display: flex;
+  justify-content: center !important;
+  font-size: 1.2rem !important;
 }

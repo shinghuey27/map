@@ -10,9 +10,11 @@ import NavigationRoundedIcon from "@material-ui/icons/NavigationRounded";
 import Typography from "@material-ui/core/Typography";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
+
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { mapUpdated } from "../redux/MapsSlice";
+import { reviewAdded, reviewDeleted } from "../redux/ReviewsSlice";
 
 import ListCompare from "./ListCompare";
 import ModalReview from "./ModalReview";
@@ -47,18 +49,24 @@ export function HistoryList({ states, setStates }) {
   };
 
   const addtocart = (entity, id, buttonText, reviewDetails) => {
-    console.log("asd", entity[id - 1]);
 
     const mapId = id;
-    console.log("buttonText", entity[id - 1].buttonText);
-    console.log("buttonText2", id);
+    const selectedId = id - 1;
 
-    if (entity[id - 1].buttonText === "Add to compare") {
+    console.log("reviewDetails", entity[selectedId]);
+    if (entity[selectedId].buttonText === "Add to compare") {
       if (count < 2) {
         dispatch(
           mapUpdated({
             id: mapId,
             buttonText: "Remove",
+          })
+        );
+        dispatch(
+          reviewAdded({
+            id: selectedId,
+            title: entity[selectedId].title,
+            reviews: entity[selectedId].reviewDetails,
           })
         );
         setCount(count + 1);
@@ -72,6 +80,8 @@ export function HistoryList({ states, setStates }) {
           buttonText: "Add to compare",
         })
       );
+      dispatch(reviewDeleted({ selectedId }));
+
       setCount(count - 1);
     }
   };
@@ -173,7 +183,9 @@ export function HistoryList({ states, setStates }) {
                           </Button>
                           <Button
                             variant="contained"
-                            color ={buttonText === "Remove" ? "secondary" : "primary"}
+                            color={
+                              buttonText === "Remove" ? "secondary" : "primary"
+                            }
                             id={id}
                             onClick={(e) => {
                               addtocart(entities, id, buttonText);

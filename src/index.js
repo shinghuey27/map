@@ -9,8 +9,10 @@ import reportWebVitals from "./reportWebVitals";
 
 import { Provider } from "react-redux";
 import { fetchMaps } from "./redux/MapsSlice";
+import { fetchReviews} from "./redux/ReviewsSlice";
 
 Store.dispatch(fetchMaps())
+Store.dispatch(fetchReviews())
 
 ReactDOM.render(
     <Provider store={Store}>
