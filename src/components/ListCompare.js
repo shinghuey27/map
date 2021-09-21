@@ -1,5 +1,5 @@
 import styles from "../sass/ListCompare.module.scss";
-
+import "../App.scss";
 import Badge from "@material-ui/core/Badge";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -21,7 +21,6 @@ const ListCompare = ({ count }) => {
   const [open, setOpen] = useState(false);
   const { entities } = useSelector((state) => state.reviews);
 
-  console.log("listcompare", entities);
 
   const handleOpen = () => {
     if (count !== 2) {
@@ -69,7 +68,7 @@ const ListCompare = ({ count }) => {
 
                   {entities[0].reviews !== undefined ? (
                     entities[0].reviews.map((review) => (
-                      <div key={review.length}>
+                      <div key={review.id}>
                         <div className={styles.header}>
                           <CardHeader
                             avatar={
@@ -132,7 +131,7 @@ const ListCompare = ({ count }) => {
                   <Divider />
                   {entities[1].reviews !== undefined ? (
                     entities[1].reviews.map((review) => (
-                      <div key={review.length}>
+                      <div key={review.id}>
                         <div className={styles.header}>
                           <CardHeader
                             avatar={

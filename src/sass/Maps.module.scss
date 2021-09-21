@@ -3,12 +3,22 @@
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
+  @media (max-width: 480px) {
+    flex-direction: column-reverse;
+  }
 }
 .displayFlex {
   display: flex;
   flex-direction: column;
   margin-left: 1rem;
   margin-right: 1rem;
+  @media (max-width: 1280px) {
+    width: 50vw;
+  }
+  @media (max-width: 480px) {
+    width: 90vw;
+    margin: auto;
+  }
 }
 .search {
   width: 100%;
@@ -20,12 +30,20 @@
 .mapContainer {
   width: 60vw;
   height: 100vh !important;
+  @media (max-width: 480px) {
+    width: 100%;
+    height: 500px !important;
+  }
 }
 
 .errorMessage {
-  width: 60vw ;
-  height: 100vh ;
+  width: 60vw;
+  height: 100vh;
   display: flex !important;
   justify-content: center;
   align-items: center;
+  @media (max-width: 480px) {
+    width: 100%;
+    height: 500px !important;
+  }
 }

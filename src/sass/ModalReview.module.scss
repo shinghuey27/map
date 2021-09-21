@@ -1,6 +1,7 @@
 .header {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .modal{
@@ -12,25 +13,29 @@
   background-color: white;
   min-height: 50vh;
   max-height: 90vh;
-  min-width: 500px;
-  max-width: 500px;
+  min-width: 30vw;
+  width: 40%;
   border-radius: 10px !important;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px !important;
     overflow: auto;
-
+    z-index: 11;
+@media (max-width:1280px){
+  width: 90%;
+}
 }
 
 .ratingDiv {
   display: flex;
   align-items: center;
-  padding: 1rem;
+  padding: 0 1rem 1rem 1rem;
   width: auto;
+
 }
 
 .reviewText {
-  width: 420px !important;
+  width: 90%!important;
   padding: 0 1rem 1rem 1rem;
 }
 

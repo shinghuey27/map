@@ -66,9 +66,7 @@ const Maps = () => {
     let url = "";
     let rating = "";
     let review = "";
-    console.log("selected2a", states);
-    console.log("selected2s", e);
-    if (states.address !== null && states.address !== undefined) {
+    if (states.address !== undefined) {
       const data = states.address.getPlace();
       console.log("selected", data);
       if (data.photos === undefined) {
@@ -90,7 +88,6 @@ const Maps = () => {
       } else {
         review = data.user_ratings_total;
       }
-      console.log("aaaaaaaaaa", states.address.gm_accessors_);
       setStates({
         ...states,
         coords: {
@@ -99,6 +96,7 @@ const Maps = () => {
         },
         search: states.address.gm_accessors_.place.zj.formattedPrediction,
       });
+      console.log("hello",states.address.gm_accessors_.place);
       dispatch(
         mapAdded({
           id: mapsAmount + 1,
@@ -116,7 +114,6 @@ const Maps = () => {
           buttonText:"Add to compare"
         })
       );
-      console.log("data", data);
     } else {
       console.log("Autocomplete is not loaded yet!");
     }

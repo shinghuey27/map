@@ -49,7 +49,6 @@ export function HistoryList({ states, setStates }) {
   };
 
   const addtocart = (entity, id, buttonText, reviewDetails) => {
-
     const mapId = id;
     const selectedId = id - 1;
 
@@ -99,6 +98,7 @@ export function HistoryList({ states, setStates }) {
     setError(false);
   };
 
+
   return (
     <div>
       <Snackbar open={error} autoHideDuration={1}>
@@ -112,6 +112,7 @@ export function HistoryList({ states, setStates }) {
       </Snackbar>
 
       <ListCompare reviewDetail={reviewDetail} count={count} />
+    
       <Paper elevation={3}>
         <div className={styles.listContainer}>
           {loading ? (
@@ -134,22 +135,27 @@ export function HistoryList({ states, setStates }) {
                     },
                     i
                   ) => (
-                    <div
-                      key={id}
-                      className={styles.historyList}
-                      onClick={() => buttonClick(coords)}
-                    >
+                    <div key={id} className={styles.historyList}>
                       <CardMedia
                         image={url}
                         title={id}
                         className={styles.placeImg}
+                        onClick={() => buttonClick(coords)}
                       />
-                      <CardContent>
-                        <Typography component="h5" variant="h5">
+                      <CardContent className={styles.cardContent}>
+                        <Typography
+                          className={styles.wordWrap}
+                          component="h5"
+                          variant="h5"
+                        >
                           {title}
                         </Typography>
 
-                        <Typography variant="subtitle1" color="textSecondary">
+                        <Typography
+                          className={styles.wordWrap}
+                          variant="subtitle1"
+                          color="textSecondary"
+                        >
                           <NavigationRoundedIcon
                             className={styles.iconRotate}
                           />

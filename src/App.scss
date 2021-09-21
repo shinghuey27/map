@@ -21,10 +21,6 @@ html {
   animation-name: unset;
 }
 
-.MuiTypography-h5 {
-  word-wrap: break-word;
-  width: 420px;
-}
 
 .MuiTypography-subtitle1 {
   word-wrap: break-word;
@@ -35,4 +31,8 @@ html {
 
 .MuiCardContent-root{
   padding: 16px 16px 0 16px !important;
+}
+
+.MuiBackdrop-root{
+  z-index: 10 !important;
 }

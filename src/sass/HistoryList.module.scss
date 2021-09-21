@@ -2,6 +2,13 @@
     width: 100%;
     overflow-y: auto;
     height: 80vh;
+    @media (max-width:1280px){
+        width: 50vw;
+        overflow-x: hidden;
+      }
+@media (max-width:480px){
+    width: 100%;
+}
 }
 
 .historyList{
@@ -11,10 +18,25 @@
     width: 700px;
     border-bottom: 1px solid #bec2ce;
     padding: 1rem;
-    cursor: pointer;
     align-items: center;
+    @media(max-width:1280px){
+        flex-direction: column;
+        width: auto;
+    }
 }
+.wordWrap{
+    word-wrap: break-word;
+    width: 420px;
+    @media(max-width:1280px){
+        width: 100%;
 
+    }
+}
+.cardContent{
+    @media(max-width:1280px){
+        width: 100%;
+    }
+}
 .alert{
     margin-bottom: 2rem;
 }
@@ -22,6 +44,7 @@
     width: 200px;
   height: 200px;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .iconRotate{
@@ -34,6 +57,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    @media (max-width:768px){
+        flex-direction: column;
+        margin-top: .5rem;
+    }
 }
 .textTotalReviews{
     margin-left: 0.5rem !important;
@@ -44,6 +71,9 @@
     display: flex;
     justify-content: space-between;
     margin-top: 4em;
+    @media (max-width:768px) {
+        flex-direction: column;
+      }
 }
 .remove{
     background-color: red !important;
