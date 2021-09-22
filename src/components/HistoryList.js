@@ -147,6 +147,8 @@ export function HistoryList({ states, setStates }) {
                           className={styles.wordWrap}
                           component="h5"
                           variant="h5"
+                          style={{cursor:"pointer"}}
+                          onClick={() => buttonClick(coords)}
                         >
                           {title}
                         </Typography>
