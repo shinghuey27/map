@@ -63,60 +63,34 @@ const Maps = () => {
 
   //selected google place
   const OnPlaceChanged = (e) => {
-    let url = "";
-    let rating = "";
-    let review = "";
-    if (states.address !== undefined) {
-      const data = states.address.getPlace();
+      const data = states.address ? states.address?.getPlace() : null;
       console.log("selected", data);
-      if (data.photos === undefined) {
-        url =
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png";
-      } else {
-        url = data.photos[0].getUrl();
-      }
-      if (data.rating === undefined) {
-        rating = 0;
-      } else {
-        rating = data.rating;
-      }
-      if (
-        data.user_ratings_total === undefined ||
-        data.user_ratings_total === null
-      ) {
-        review = 0;
-      } else {
-        review = data.user_ratings_total;
-      }
       setStates({
         ...states,
         coords: {
-          lat: data.geometry.location.lat(),
-          lng: data.geometry.location.lng(),
+          lat: data.geometry?.location.lat(),
+          lng: data.geometry?.location.lng(),
         },
-        search: states.address.gm_accessors_.place.zj.formattedPrediction,
+        // search: states.address.gm_accessors_.place.hk?.formattedPrediction,
+        search : `${data.name}, ${data.formatted_address}`,
       });
-      console.log("hello",states.address.gm_accessors_.place);
       dispatch(
         mapAdded({
           id: mapsAmount + 1,
           title: data.name,
           isOpen: false,
-          url: url,
+          url: data.photos === undefined ? "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png" : data.photos[0].getUrl(),
           coords: {
             lat: data.geometry.location.lat(),
             lng: data.geometry.location.lng(),
           },
-          rating: rating,
+          rating: data.rating === undefined ? 0 : data.rating,
           formatted_address: data.formatted_address,
-          review: review,
+          review: data.user_ratings_total ? data.user_ratings_total : 0,
           reviewDetails: data.reviews,
           buttonText:"Add to compare"
         })
       );
-    } else {
-      console.log("Autocomplete is not loaded yet!");
-    }
   };
   //Trigger marker open
   const handleToggleOpen = (evt) => {

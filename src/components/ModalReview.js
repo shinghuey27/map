@@ -31,8 +31,8 @@ const ModalReview = ({ reviewDetail, open, setOpen }) => {
       <Fade in={open}>
         <Card className={styles.reviewContainer}>
           {reviewDetail !== undefined ? (
-            reviewDetail.map((review) => (
-              <div key={review.id}>
+            reviewDetail.map((review,id) => (
+              <div key={id}>
                 <div className={styles.header}>
                   <CardHeader
                     avatar={
