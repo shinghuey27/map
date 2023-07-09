@@ -16,16 +16,14 @@ import { mapAdded } from "../redux/MapsSlice";
 import Loading from "./Loading";
 
 const Maps = () => {
-  const initialState = [
-    {
-      isOpen: false,
-      coords: { lat: null, lng: null },
-      address: "",
-      search: "",
-      reviewDetails: { name: "", rating: null, time: "", desc: "" },
-      selectedItem: null,
-    },
-  ];
+  const initialState = {
+    isOpen: false,
+    coords: { lat: null, lng: null },
+    address: "",
+    search: "",
+    reviewDetails: { name: "", rating: null, time: "", desc: "" },
+    selectedItem: null,
+  };
   const [states, setStates] = useState(initialState);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -36,13 +34,13 @@ const Maps = () => {
   const getLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setStates({
-          ...states,
+        setStates((prevState) => ({
+          ...prevState,
           coords: {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           },
-        });
+        }));
       },
       (err) => setErrorMessage(err.message)
     );
@@ -51,7 +49,7 @@ const Maps = () => {
   // set default coords
   useEffect(() => {
     getLocation();
-  });
+  },[]);
 
   //load google place autocomplete
   const onLoad = (autocomplete) => {
@@ -62,18 +60,19 @@ const Maps = () => {
   };
 
   //selected google place
-  const OnPlaceChanged = (e) => {
-      const data = states.address ? states.address?.getPlace() : null;
-      console.log("selected", data);
-      setStates({
-        ...states,
+  const OnPlaceChanged = () => {
+    const data = states.address ? states.address.getPlace() : null;
+  
+    if (data && data.geometry) {
+      setStates((prevState) => ({
+        ...prevState,
         coords: {
-          lat: data.geometry?.location.lat(),
-          lng: data.geometry?.location.lng(),
+          lat: data.geometry.location.lat(),
+          lng: data.geometry.location.lng(),
         },
-        // search: states.address.gm_accessors_.place.hk?.formattedPrediction,
-        search : `${data.name}, ${data.formatted_address}`,
-      });
+        search: `${data.name}, ${data.formatted_address}`,
+      }));
+  
       dispatch(
         mapAdded({
           id: mapsAmount + 1,
@@ -88,10 +87,12 @@ const Maps = () => {
           formatted_address: data.formatted_address,
           review: data.user_ratings_total ? data.user_ratings_total : 0,
           reviewDetails: data.reviews,
-          buttonText:"Add to compare"
+          buttonText: "Add to compare",
         })
       );
+    }
   };
+  
   //Trigger marker open
   const handleToggleOpen = (evt) => {
     setStates({
@@ -129,11 +130,14 @@ const Maps = () => {
         </Typography>
       );
     }
-
-    if (!errorMessage && states.coords) {
+  
+    if (!errorMessage && states.coords && Number.isFinite(states.coords.lat) && Number.isFinite(states.coords.lng)) {
+      const { lat, lng } = states.coords;
+      const center = { lat, lng };
+  
       return (
         <GoogleMap
-          center={states.coords}
+          center={center}
           zoom={13}
           mapContainerClassName={styles.mapContainer}
         >
